@@ -1,0 +1,93 @@
+<el-container class="ym-container" v-cloak id="layouts-container">
+    <el-aside :style="layouts.left.show ? (layouts.collapse.show ? {width:'64px'} : {width:'210px'}) : {width:'1px'}" class="container-aside">
+        <div class="container-aside-logo" :style="layouts.collapse.show ? {width:'64px'} : {width:'210px'}">
+            <el-avatar shape="square" size="medium"></el-avatar>
+            <span class="title" v-show="!layouts.collapse.show">位尔多管理系统</span>
+        </div>
+        <div class="container-aside-menu" v-if="layouts.left.show">
+            <el-menu
+                :default-active="layouts.left.active"
+                class="left-menu"
+                @select="layoutsLeftMenuEvent"
+                :unique-opened="true"
+                :collapse="layouts.collapse.show"
+            >
+                <template v-if="layouts.left.show">
+                    <template v-for="items in layouts.left.menus">
+                        <el-menu-item :index="items.id" v-if="items.children.length < 1" :item="items">{{items.name}}</el-menu-item>
+                        <el-submenu :index="items.id" v-if="items.children.length > 0" :item="items">
+                            <template slot="title">{{items.name}}</template>
+                            <el-menu-item v-for="children in items.children" :index="children.id" :item="children">{{children.name}}</el-menu-item>
+                        </el-submenu>
+                    </template>
+                </template>
+        </div>
+    </el-aside>
+    <el-container>
+        <el-header class="container-menu-header" :style="layouts.left.show ? {marginLeft:'0'} : {marginLeft:'204px'}">
+            <el-menu
+                class="header-menu"
+                mode="horizontal"
+                :default-active="layouts.header.active"
+                @select="layoutsHeaderMenuEvent"
+                background-color="#2f4050"
+                text-color="#fff"
+                active-text-color="#FF7500"
+            >
+                <div class="header-collapse" @click="layoutsCollapseEvent" v-if="layouts.left.show">
+                    <i class="el-icon-s-fold"></i>
+                </div>
+                <template v-if="layouts.header.show">
+                    <template v-for="items in layouts.header.menus">
+                        <el-menu-item :index="items.id" v-if="items.children.length < 1" :item="items" >{{items.name}}</el-menu-item>
+                        <el-submenu :index="items.id" v-if="items.children.length > 0" :item="items">
+                            <template slot="title">{{items.name}}</template>
+                            <el-menu-item v-for="children in items.children" :index="children.id" :item="children" >{{children.name}}</el-menu-item>
+                        </el-submenu>
+                    </template>
+                </template>
+            </el-menu>
+            <div class="header-dropdown">
+                <el-dropdown>
+                              <span class="el-dropdown-link">
+                                NuoCoo <i class="el-icon-arrow-down el-icon--right"></i>
+                              </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item>修改密码</el-dropdown-item>
+                        <el-dropdown-item>安全退出</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </div>
+        </el-header>
+        <div style="width: 100%;height: 39px;" v-if="layouts.tabs.show">
+            <div style="position: fixed;right: 76px;" :style="layouts.left.show ? (layouts.collapse.show ? {left:'64px'} : {left:'210px'}) : {left:'0px'}">
+                <el-tabs type="border-card" closable
+                         v-model="layouts.tabs.active"
+                         class="container-tabs"
+                         :before-leave="layoutsTabsMenuBeforeEvent"
+                         @tab-click="layoutsTabsMenuClickEvent"
+                         @tab-remove='layoutsTabsMenuCloseEvent'
+                >
+                    <el-tab-pane v-for="items in layouts.tabs.menus" :label="items.name" :item="items" :name="items.id"></el-tab-pane>
+                </el-tabs>
+            </div>
+
+            <div class="container-tabs-dropdown">
+                <el-dropdown @command="layoutsTabsDropdownCommand">
+                              <span class="el-dropdown-link">
+                                操作 <i class="el-icon-arrow-down el-icon--right"></i>
+                              </span>
+                    <el-dropdown-menu slot="dropdown" >
+                        <el-dropdown-item command="close-current">关闭当前</el-dropdown-item>
+                        <el-dropdown-item command="close-all">关闭全部</el-dropdown-item>
+                        <el-dropdown-item command="refresh-page" divided>刷新页面</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </div>
+        </div>
+
+        <el-main class="container-main" :style="layouts.containerMainStyle">
+            <div class="container-main-box" :style="layouts.containerMainBoxStyle">
+
+
+

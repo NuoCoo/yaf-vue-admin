@@ -1,0 +1,120 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+[v-cloak]{
+    display: none;
+}
+html{
+    width: 100%;
+    height: 100%;
+}
+body{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+    color: #333;
+    /*
+    font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+    font: 12px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif;
+    font: 14px/1.5 'Microsoft YaHei',arial,tahoma,\5b8b\4f53,sans-serif;
+    font: 12px/1 Tahoma,Helvetica,Arial,"\5b8b\4f53",sans-serif;
+    font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
+*/
+}
+.ym-container{
+    width: 100%;
+    height: 100%;
+    position: absolute
+}
+.container-menu-header{padding: 0 0 !important;height:45px !important;background: #2f4050;}
+.container-menu-header .header-collapse{height: 45px !important;line-height:45px;display: inline-block;
+    padding-left: 8px;color: white;float: left;width: 30px;cursor: pointer;    font-size: 22px;}
+.container-menu-header .header-menu{height: 45px !important;line-height:45px;display: inline-block;float: left;}
+.container-menu-header .header-dropdown{height: 45px !important;line-height:45px;display: inline-block;
+    float: right;padding-right: 25px;color: white;    cursor: pointer;}
+    .container-menu-header .header-dropdown .el-dropdown{color: white;}
+.container-menu-header .header-menu .el-menu-item,
+.container-menu-header .header-menu .el-submenu{height: 45px !important;line-height:45px;}
+.container-menu-header .header-menu .el-submenu .el-submenu__title{height: 45px !important;line-height:45px;}
+.el-menu.el-menu--horizontal{border-bottom-width: 0;}
+
+.container-aside-logo .container-aside{width:210px;background:white;}
+
+.container-aside-logo{
+    height: 45px;
+    background: #2f4050;
+    position: fixed;
+    top: 0;
+    z-index: 1203;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 45px;
+    letter-spacing:1px;
+    color: white;
+}
+
+.container-aside-logo .el-avatar{margin: 5px 0 0 10px;float: left}
+
+.container-aside-logo .title{margin-left: 5px;font-size: 17px}
+
+
+.container-aside-menu{margin-top: 45px}
+.container-aside-menu .el-menu-item, .container-aside-menu .el-submenu__title{
+    height: 40px;
+    line-height: 40px;
+}
+.container-aside-menu .el-menu{border-right: none}
+.container-main{
+	width:100%;background:#efefef;padding:15px 15px 15px 15px; height: max-content; overflow: auto;
+}
+.container-main .container-main-box{
+    background: white;
+    border-radius: 5px;
+    min-width: 100%;
+    width: auto;
+    overflow: hidden;
+    padding: 15px 15px 15px 15px;
+    box-sizing: border-box;
+
+    justify-content: space-between;
+    height: auto;
+
+}
+.container-main .container-main-box .container-content{
+	
+}
+.el-tabs--border-card>.el-tabs__content{padding:0;height: 0px;border: none;}
+.container-tabs{
+    box-shadow:none;
+
+}
+.container-tabs .el-tabs__item,
+.container-tabs .el-tabs__nav-prev,
+.container-tabs .el-tabs__nav-next{height: 35px;line-height: 35px}
+.container-tabs #tab-0 .el-icon-close{display: none}
+.container-tabs-dropdown{
+    position: fixed;
+    right: 0;
+    font-size: 14px;
+    cursor: pointer;
+    width: 55px;
+    height: 34px;
+    line-height: 34px;
+    padding: 0 10px;
+    transition: all .3s cubic-bezier(.645,.045,.355,1);
+    border: 1px solid transparent;
+    color: #FF7500;
+    background-color: #FFF;
+    border-left-color: #DCDFE6;
+    border-bottom: 1px solid  #DCDFE6;
+}
+
+.el-menu--collapse .el-menu .el-submenu, .el-menu--popup{min-width: 152px}
+
+.ym-dialog.fixed{    width: 30%;
+    position: fixed;
+    right: 0;
+    height: 100%;
+    margin-top: 0px !important}
