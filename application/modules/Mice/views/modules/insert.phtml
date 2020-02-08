@@ -1,0 +1,148 @@
+<?php Yaf_Loader::import(VIEW_PATH.'/layout/header.phtml'); ?>
+<?php Yaf_Loader::import(VIEW_PATH.'/layout/main.phtml'); ?>
+	<div class="form-container">
+        <el-row >
+            <el-col :xs="21" :sm="21" :md="16" :lg="12" :xl="12" :offset="3">
+                <el-form ref="forms.model" :model="forms.model" :rules="forms.rules"  label-position="top" size="small" class="ym-dialog-forms">
+                    <el-form-item label="上级菜单" prop="parent_id">
+                        <el-select v-model="forms.model.parent_id" placeholder="-- 请选择上级菜单 --" style="width: 100%" >
+                            <el-option v-for="(item, index) in parentItems" :label="item.label" :value="item.value"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="栏目名称" prop="name" required>
+                        <el-input v-model="forms.model.name" placeholder="请填写栏目名称"></el-input>
+                    </el-form-item>
+                    <el-form-item label="栏目地址" prop="url">
+                        <el-input v-model="forms.model.url" placeholder="请填写栏目地址"></el-input>
+                    </el-form-item>
+                    <el-form-item label="栏目图标" prop="icon">
+                        <el-input v-model="forms.model.icon" placeholder="请填写栏目图标"></el-input>
+                    </el-form-item>
+                    <el-form-item label="栏目名称" prop="name" required>
+                        <el-input v-model="forms.model.name" placeholder="请填写栏目名称"></el-input>
+                    </el-form-item>
+                    <el-form-item label="栏目地址" prop="url">
+                        <el-input v-model="forms.model.url" placeholder="请填写栏目地址"></el-input>
+                    </el-form-item>
+                    <el-form-item label="栏目图标" prop="icon">
+                        <el-input v-model="forms.model.icon" placeholder="请填写栏目图标"></el-input>
+                    </el-form-item>
+                    <el-form-item label="栏目状态" prop="status">
+                        <el-switch v-model="forms.model.status" active-text="启用" inactive-text="禁用"></el-switch>
+                    </el-form-item>
+                    <el-form-item label="栏目排序" prop="sort">
+                        <el-input-number v-model="forms.model.sort" :min="1" :max="255" label="栏目排序"></el-input-number>
+                        <span class="Va-help-block" data-7512a93d>
+                            <i class="fa fa-exclamation-circle"></i>
+                            数字越小越靠前，默认255
+                        </span>
+                    </el-form-item>
+                </el-form>
+                <span class="dialog-footer">
+                    <el-button @click="$forms.cancelEvent" size="small">取 消</el-button>
+                    <el-button type="primary" @click="$forms.submitEvent" size="small" :loading="forms.loading">
+                        {{forms.loading ? '提交中...' : '提 交'}}
+                    </el-button>
+                </span>
+            </el-col>
+        </el-row>
+	</div>
+	<?php Yaf_Loader::import(__DIR__.'/forms.phtml'); ?>
+	<?php Yaf_Loader::import(VIEW_PATH.'/layout/footer.phtml'); ?>
+<script>
+    var $App = new Vue({
+        el: '#app',
+        mixins: [$layout],
+        data: {
+			tables:{
+				search:{users:''},
+				pagination:{
+					sizes:[15, 30, 50, 100],
+					size:15,
+					layout:'sizes, prev, pager, next',
+					total:0,
+					page:1,
+				},
+				 tableData: [],
+			},
+			forms:{
+				dialog:false, loading:false, action:'mice/column/getColumnParents',
+				model:{parent_id:'', name:'', url:'', icon:'', status:true, sort:'255' },
+				rules: {
+					name: [
+						{ required: true, message: '请填写栏目名称', trigger: 'blur'},
+					]
+				}
+			},
+			parentItems:[]
+		},
+		
+        methods: {
+			onSubmit:function(model){
+				console.log(model);
+			},
+			insertForms:function(){
+				var that = this;
+				$forms.openEvent();
+				that.forms.action = 'mice/column/insert';
+				that.forms.model = {parent_id:'', name:'', url:'', icon:'', status:true, sort:'255' };
+			},
+
+			updateForms:function(rows){
+				var that = this;
+				$forms.openEvent();
+				that.forms.action = 'mice/column/update'; 
+				that.forms.model = {
+					id:rows.id,
+					parent_id:rows.parent_id > 0 ? rows.parent_id: '',
+					name:rows.name,
+					url:rows.url, 
+					icon:rows.icon,
+					status:rows.status == '1' ? true : false,
+					sort:rows.sort 
+				};
+			},
+
+			removeForms:function(rows){
+				var that = this;
+				$message.$confirm('确认删除当前菜单吗？', function(){
+					$request.post('mice/column/remove', {id:rows.id}, function (res) {
+						$message.$success('菜单删除成功！', 2400);
+						that.getTablesList();
+            		});	
+				});
+			},
+
+			getTablesList:function(){
+				var that = this;
+				$request.post('mice/column/lists', that.tables.search, function (res) {
+					that.tables.pagination.total = res.result.total;
+					that.tables.tableData = res.result.rows;
+            	});		
+			},
+			
+			getColumnParents:function(){
+				var that = this;
+				$request.post('mice/column/getColumnParents', {}, function (res) {
+					that.parentItems = res.result;
+            	});	
+			}	
+        },
+
+        mounted: function () {
+            var that = this;
+
+        },
+
+        beforeCreate:function(){
+           
+        },
+
+        created:function(){
+			
+
+        }
+    });
+	
+
+</script>

@@ -3,8 +3,6 @@ namespace Master\Utils;
 
 class Response
 {
-
-
     /**
      * 以json返回数据
      * @param string $msg 提示

@@ -1,35 +1,29 @@
 <?php Yaf_Loader::import(VIEW_PATH.'/layout/header.phtml'); ?>
 <?php Yaf_Loader::import(VIEW_PATH.'/layout/main.phtml'); ?>
-<el-button type="primary" @click="dialogVisible = true">主要按钮</el-button>
-<el-dialog
-        title="提示"
-        :visible.sync="dialogVisible"
-        width="30%"
-        custom-class="ym-dialog fixed"
-        :before-close="handleClose"
->
-    <span>这是一段信息</span>
-    <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-  </span>
-</el-dialog>
+<el-button size="medium" type="primary" @click="components.dialogFixed.dialog = true">打开dialogFixed</el-button>
 
+<el-button size="medium" type="primary" @click="components.dialogAuto.dialog = true">打开dialogAuto</el-button>
+
+<el-button size="medium" type="primary" @click="$import.openEvent">打开导入文件</el-button>
+
+<?php Yaf_Loader::import(VIEW_PATH.'/components/dialog-auto.phtml'); ?>
+<?php Yaf_Loader::import(VIEW_PATH.'/components/dialog-fixed.phtml'); ?>
+<?php Yaf_Loader::import(VIEW_PATH.'/components/import-files.phtml'); ?>
 <?php Yaf_Loader::import(VIEW_PATH.'/layout/footer.phtml'); ?>
 <script>
-    var $NuoCoo = new Vue({
+    var $App = new Vue({
         el: '#app',
         mixins: [$layout],
         data: {
-            dialogVisible: false
+			components:{
+                import:{options:{accept:'txt,png,jpg,pneg',size:'5'},callback:'importCallback',action:
+                {url:'', callback:''}
+            },
+            }
         },
         methods: {
-            handleClose(done) {
-                this.$confirm('确认关闭？')
-                    .then(_ => {
-                        done();
-                    })
-                    .catch(_ => {});
+            importCallback:function(result){
+                console.log(result);
             }
         },
         mounted: function () {
@@ -37,7 +31,7 @@
 
         },
         beforeCreate:function(){
-            console.log('beforecreate');
+           
         },
 
         created:function(){

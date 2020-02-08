@@ -2,8 +2,8 @@
 
 /**
  * 基类controller
- * author: sunfx
- * creatTime: 15/9/30 上午9:48
+ * author: nuocoo
+ * creatTime: 19/9/30 上午9:48
  * description:
  * php版本只支持5.3以上
  */

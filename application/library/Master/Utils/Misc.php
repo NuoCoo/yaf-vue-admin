@@ -5,6 +5,38 @@ class Misc
 {
 
 
+
+        /**
+     * 递归
+     * @param array $array 数据
+     * @param string $index key
+     * @param string $pid 父级key
+     *
+     * @return   array
+     */
+    public static function recursion($array, $index = 'id', $pid = 'parent_id'){
+        //第一步 构造数据
+        $items = [];
+        if(empty($array)){
+            return [];
+        }
+        foreach($array as $value){
+            $items[$value[$index]] = $value;
+        }
+
+        //第二部 遍历数据 生成树状结构
+        $tree = array();
+        foreach($items as $key => $item){
+            if(isset($items[$item[$pid]])){
+                $items[$item[$pid]]['children'][] = &$items[$key];
+            }else{
+                $tree[] = &$items[$key];
+            }
+        }
+        return $tree;
+    }
+
+
     /**
      * 生成流水码
      * @return string  流水码

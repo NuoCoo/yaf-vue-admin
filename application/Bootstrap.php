@@ -29,27 +29,26 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     {
         // 最低版本需求判断
         PHP_VERSION < '5.4' && exit('Required PHP version 5.4.* or later.');
+
         //配置文件
         Yaf_Registry::set('config', Yaf_Application::app()->getConfig());
+        
         define('PATH_APP', Yaf_Registry::get('config')->application->directory);
 
-        //站点名字
-        define('SITE_NAME', Yaf_Registry::get('config')->site_name);
         //是否开启调试模式
         define('DEBUG', Yaf_Registry::get('config')->get('application')->showErrors);
 
-        define('COOKIE_AUTH_KEY', Yaf_Registry::get('config')->auth_key);
-
         define('VIEW_PATH', Yaf_Registry::get('config')->application->template. "/template/views");
+
+        define('UPLOAD_PATH', APP_PATH.'/public/uploads/'); //数据目录
+
         define('DATA_PATH', APP_PATH.'/data'); //数据目录
+
         define('LOG_PATH', DATA_PATH.'/log'); //日志目录
 
         define('SYS_TIME', $_SERVER['time']);
 
         define('DS', DIRECTORY_SEPARATOR);
-
-        //redis保存时间 临时 10秒钟
-        // define('REDISTIME',10);
 
         //----------------------------------> 全局设置:
 
@@ -66,6 +65,7 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         }
 
         ini_set('memory_limit', '1024m');
+        
         //设置市区
         date_default_timezone_set('Asia/Shanghai');
 
@@ -110,12 +110,15 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         $dispatcher->getRouter()->addConfig((new Yaf_Config_Ini(APP_PATH.'/conf/routes.ini'))->routes);
 
         $dispatcher->registerPlugin(new RoutePlugin());
+
         //注册本地类
-        Yaf_Loader::getInstance()->registerLocalNameSpace(['misc']);
+      //  Yaf_Loader::getInstance()->registerLocalNameSpace(['misc']);
 
         // 加载数据库
         $database_config = new Yaf_Config_Ini(APP_PATH.'/conf/database.ini', ENV);
+       
         Yaf_Registry::set('database', $database_config);
+       
         CoreInit::ob_start();
     }
 

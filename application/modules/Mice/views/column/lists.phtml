@@ -1,0 +1,170 @@
+<?php Yaf_Loader::import(VIEW_PATH.'/layout/header.phtml'); ?>
+<?php Yaf_Loader::import(VIEW_PATH.'/layout/main.phtml'); ?>
+	<div class="form-container">
+		<div class="form-container-header">
+			<el-form :inline="true" :model="tables.search" size="small" class="ym-form">
+				<el-form-item>
+					<el-input v-model="tables.search.users" placeholder="审批人"></el-input>
+				</el-form-item>
+				<el-form-item>
+					<el-select v-model="tables.search.users" placeholder="活动区域">
+						<el-option label="区域一" value="shanghai"></el-option>
+						<el-option label="区域二" value="beijing"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" @click="onSubmit" size="small">查询</el-button>
+				</el-form-item>
+			</el-form>
+		</div>
+
+		<div class="form-container-options">
+			<el-row style="text-align: right;">
+			  <el-button type="primary" size="small" @click="insertForms()">添加</el-button>
+			  <el-button type="warning" size="small" @click="$framework.refreshPage">刷新</el-button>
+			</el-row>
+		</div>
+
+		<div class="form-container-main inline-tables no-pic">
+			<el-table
+				class="ym-tables"
+			    :data="tables.tableData"
+			    border
+			  	@cell-click="tablesCellClick"
+			   :stripe = "true"
+				tooltip-effect="dark"
+				:expand-row-keys="['1']"
+				row-key="id"
+			    style="width: 100%"
+			>
+			    <el-table-column prop="name" label="名称" align="left" ></el-table-column>
+			    <el-table-column prop="url" label="地址" align="center" ></el-table-column>
+				<el-table-column prop="icon" label="图标" align="center" ></el-table-column>
+				<el-table-column prop="status" label="状态" align="center" >
+					<template slot-scope="scope">
+                        <span v-if="scope.row.status == 0" class="ym-table-span">禁用</span>
+                        <span v-if="scope.row.status == 1" class="ym-table-span success">启用</span>
+                    </template>
+				</el-table-column>
+				<el-table-column prop="options" label="操作" align="center" >
+					<template slot-scope="scope">
+                        <el-button size="mini" inline type="primary" @click="updateForms(scope.row)">
+                           编辑
+                        </el-button>
+                        <el-button size="mini" inline type="danger" @click="removeForms((scope.row))" >
+                           删除
+                        </el-button>
+                    </template>
+				</el-table-column>
+			  </el-table>
+			  <div style="text-align: right;margin-top: 10px;">
+				<el-pagination
+					:current-page.sync="tables.pagination.page"
+					:page-sizes="tables.pagination.sizes"
+					:page-size="tables.pagination.size"
+					:layout="tables.pagination.layout"
+					:total="tables.pagination.total">
+					</el-pagination>
+			  </div> 
+		</div>
+	</div>
+	<?php Yaf_Loader::import(__DIR__.'/forms.phtml'); ?>
+	<?php Yaf_Loader::import(VIEW_PATH.'/layout/footer.phtml'); ?>
+<script>
+    var $App = new Vue({
+        el: '#app',
+        mixins: [$layout],
+        data: {
+			tables:{
+				search:{users:''},
+				pagination:{
+					sizes:[15, 30, 50, 100],
+					size:15,
+					layout:'sizes, prev, pager, next',
+					total:0,
+					page:1,
+				},
+				 tableData: [],
+			},
+			forms:{
+				dialog:false, loading:false, action:'mice/column/getColumnParents',
+				model:{parent_id:'', name:'', url:'', icon:'', status:true, sort:'255' },
+				rules: {
+					name: [
+						{ required: true, message: '请填写栏目名称', trigger: 'blur'},
+					]
+				}
+			},
+			parentItems:[]
+		},
+		
+        methods: {
+			onSubmit:function(model){
+				console.log(model);
+			},
+			insertForms:function(){
+				var that = this;
+				$forms.openEvent();
+				that.forms.action = 'mice/column/insert';
+				that.forms.model = {parent_id:'', name:'', url:'', icon:'', status:true, sort:'255' };
+			},
+
+			updateForms:function(rows){
+				var that = this;
+				$forms.openEvent();
+				that.forms.action = 'mice/column/update'; 
+				that.forms.model = {
+					id:rows.id,
+					parent_id:rows.parent_id > 0 ? rows.parent_id: '',
+					name:rows.name,
+					url:rows.url, 
+					icon:rows.icon,
+					status:rows.status == '1' ? true : false,
+					sort:rows.sort 
+				};
+			},
+
+			removeForms:function(rows){
+				var that = this;
+				$message.$confirm('确认删除当前菜单吗？', function(){
+					$request.post('mice/column/remove', {id:rows.id}, function (res) {
+						$message.$success('菜单删除成功！', 2400);
+						that.getTablesList();
+            		});	
+				});
+			},
+
+			getTablesList:function(){
+				var that = this;
+				$request.post('mice/column/lists', that.tables.search, function (res) {
+					that.tables.pagination.total = res.result.total;
+					that.tables.tableData = res.result.rows;
+            	});		
+			},
+			
+			getColumnParents:function(){
+				var that = this;
+				$request.post('mice/column/getColumnParents', {}, function (res) {
+					that.parentItems = res.result;
+            	});	
+			}	
+        },
+
+        mounted: function () {
+            var that = this;
+
+        },
+
+        beforeCreate:function(){
+           
+        },
+
+        created:function(){
+			this.getTablesList();
+			this.getColumnParents();
+
+        }
+    });
+	
+
+</script>

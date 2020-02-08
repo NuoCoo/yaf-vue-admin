@@ -1,0 +1,138 @@
+<?php Yaf_Loader::import(VIEW_PATH.'/layout/header.phtml'); ?>
+<?php Yaf_Loader::import(VIEW_PATH.'/layout/main.phtml'); ?>
+	<div class="form-container">
+		<div class="form-container-header">
+			<el-form :inline="true" :model="tables.search" size="small" class="ym-form">
+				<el-form-item>
+					<el-input v-model="tables.search.users" placeholder="审批人"></el-input>
+				</el-form-item>
+				<el-form-item>
+					<el-select v-model="tables.search.users" placeholder="活动区域">
+						<el-option label="区域一" value="shanghai"></el-option>
+						<el-option label="区域二" value="beijing"></el-option>
+					</el-select>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" @click="onSubmit">查询</el-button>
+				</el-form-item>
+			</el-form>
+		</div>
+		<div class="form-container-options">
+			<el-row style="text-align: right;">
+			  <el-button type="primary" size="small">主要按钮</el-button>
+			  <el-button type="success" size="small">成功按钮</el-button>
+			  <el-button type="info" size="small">信息按钮</el-button>
+			  <el-button type="warning" size="small">警告按钮</el-button>
+			  <el-button type="danger" size="small">危险按钮</el-button>
+			</el-row>
+		</div>
+		<div class="form-container-main inline-tables no-pic">
+			<el-table
+				class="ym-tables"
+			    :data="tables.tableData"
+			    border
+			  @cell-click="tablesCellClick"
+			   :stripe = "true"
+			    tooltip-effect="dark"
+			    style="width: 100%"
+			>
+			    <el-table-column prop="date" label="日期阀手动阀"></el-table-column>
+			    <el-table-column prop="name" label="姓名"></el-table-column>
+			    <el-table-column prop="address" label="地址"></el-table-column>
+				<el-table-column prop="date" label="日期"></el-table-column>
+				<el-table-column prop="name" label="姓名方式发送给"></el-table-column>
+				<el-table-column prop="address" label="地址"></el-table-column>
+				<el-table-column prop="date" label="日期"></el-table-column>
+				<el-table-column prop="name" label="姓名"></el-table-column>
+				<el-table-column prop="address" label="地址"></el-table-column>
+				<el-table-column prop="date" label="日期"></el-table-column>
+				<el-table-column prop="name" label="姓名"></el-table-column>
+				<el-table-column prop="address" label="地址"></el-table-column>
+				<el-table-column prop="date" label="日期"></el-table-column>
+				<el-table-column prop="name" label="姓名"></el-table-column>
+				<el-table-column prop="address" label="地址"></el-table-column>
+				<el-table-column prop="date" label="日期"></el-table-column>
+				<el-table-column prop="name" label="姓名"></el-table-column>
+				<el-table-column prop="address" label="地址"></el-table-column>
+			  </el-table>
+			  <div style="text-align: right;margin-top: 10px;">
+			  <el-pagination
+				current-page.sync="5"
+				:page-sizes="[100, 200, 300, 400]"
+				:page-size="100"
+				layout="sizes, prev, pager, next"
+				:total="1000">
+				</el-pagination>
+			  </div>
+			 
+		</div>
+	</div>
+<?php Yaf_Loader::import(VIEW_PATH.'/layout/footer.phtml'); ?>
+<script>
+    var $NuoCoo = new Vue({
+        el: '#app',
+        mixins: [$layout],
+        data: {
+			tables:{
+				search:{users:''},
+				 tableData: [{
+				          date: '2016-05-02',
+				          name: '王小虎',
+				          address: '上海市普陀区金沙江路 1518 弄'
+				        }, {
+				          date: '2016-05-04',
+				          name: '王小虎',
+				          address: '上海市普陀区金沙江路 1517 弄'
+				        }, {
+				          date: '2016-05-01',
+				          name: '王小虎',
+				          address: '上海市普陀区金沙江路 1519 弄'
+				        }, {
+				          date: '2016-05-03',
+				          name: '王小虎',
+				          address: '上海市普陀区金沙江路 1516 弄'
+				        }],
+			},
+			components:{
+				dialogFixed:{dialog:false},
+				dialogAuto:{dialog:false},
+			}
+        },
+        methods: {
+			onSubmit:function(){},
+			tablesCellClick:function(row, column, cell, event){
+				event.stopPropagation();
+				if($(cell).find('.cell').hasClass('Va-table-move')){
+					return  false;
+				} else {
+					$('.cell').removeClass('Va-table-move');
+					$('.Va-table-move-close').remove();
+					if(!row[column.property]){
+						return false;
+					}
+					$(cell).find('.cell').append('<i class="el-icon-close Va-table-move-close" onclick="removeTableMove(this)"></i>');
+					$(cell).find('.cell').addClass('Va-table-move');
+				}
+			}
+        },
+
+        mounted: function () {
+            var that = this;
+
+        },
+
+        beforeCreate:function(){
+           
+        },
+
+        created:function(){
+
+
+        }
+    });
+	function removeTableMove(obj){
+		$(obj).parent().removeClass('Va-table-move');
+		$(obj).remove();
+	}
+
+</script>

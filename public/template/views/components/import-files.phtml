@@ -1,0 +1,63 @@
+<el-dialog
+        title="提示"
+		:close-on-click-modal="false"
+        :visible.sync="components.import.dialog"
+        width="400px"
+		top="15vh"
+		:show-close="true"
+       :lock-scroll="false"
+	    append-to-body
+        custom-class="ym-dialog auto"
+>
+ <!-- fixed--> 
+    <div class="ym-dialog-main">
+        <el-upload
+            class="ym-upload-import"
+            drag
+            action="/component/importUpload/"
+            :on-success="$import.successUploadEvent"
+            :on-error="$import.errorUploadEvent"
+            :on-progress="$import.progressUploadEvent"
+            :on-exceed="$import.exceedUploadEvent"
+            :before-upload="$import.beforeUploadEvent"
+            :show-file-list='false'
+            :limit='1'
+            ref="ymUploadImport"
+            >
+           
+            <div class="ym-upload-import-progress" @click="$import.againUploadPrevent" v-show="components.import.progress.status">
+                <div class='progress' style="margin-top: 28px">    
+                    <el-progress type="circle" :percentage="components.import.progress.percentage"></el-progress>
+                </div>
+            </div>
+
+            <div class="ym-upload-import-complete" @click="$import.againUploadPrevent" v-show="components.import.status && !components.import.progress.status">
+                <div class='button'>
+                    <el-button type="primary" @click="$import.againUploadEvent" size="small">重新上传</el-button>
+                </div>
+                <i class="el-icon-document icon"></i>
+                <div class="el-upload__text">
+                    <span class='title' v-show="components.import.result">
+                        {{components.import.result.filename}}
+                    </span>    <br>
+                    <span class='tips'  v-show="components.import.result">
+                        文件大小：{{components.import.result.size_format}}
+                    </span> 
+                </div>
+            </div>
+           
+            <div class="ym-upload-import-start" v-show="!components.import.status && !components.import.progress.status">
+                <i class="el-icon-upload icon"></i>
+                <div class="el-upload__text">
+                    将文件拖到此处，或<em>点击上传</em><br>
+                    <span class='tips'>只能上传{{components.import.options.accept}}文件，且不超过{{components.import.options.size}}MB</span> 
+                </div>
+            </div>
+               
+        </el-upload>
+    </div>
+    <span slot="footer" class="dialog-footer">
+    <el-button @click="$import.cancelEvent" size="small">取 消</el-button>
+    <el-button type="primary" @click="$import.submitEvent" size="small" :disabled="!components.import.status">确 定</el-button>
+  </span>
+</el-dialog>

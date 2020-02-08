@@ -15,6 +15,7 @@ body{
     position: absolute;
     font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
     color: #333;
+    overflow: hidden;
     /*
     font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
     font: 12px/1.5 Tahoma,Helvetica,Arial,'宋体',sans-serif;
@@ -77,7 +78,6 @@ body{
     overflow: hidden;
     padding: 15px 15px 15px 15px;
     box-sizing: border-box;
-
     justify-content: space-between;
     height: auto;
 
@@ -113,8 +113,152 @@ body{
 
 .el-menu--collapse .el-menu .el-submenu, .el-menu--popup{min-width: 152px}
 
-.ym-dialog.fixed{    width: 30%;
+
+
+.el-dialog__wrapper{overflow:hidden}
+
+.ym-dialog.auto{
+    overflow: hidden;
+    border-radius: 3px;
+}
+
+.ym-dialog.fixed{
     position: fixed;
     right: 0;
-    height: 100%;
-    margin-top: 0px !important}
+    overflow: hidden;
+    border-radius: 0px;
+	margin: 0 auto 0px !important;
+}
+
+.ym-dialog .el-dialog__header{
+    border-bottom: 1px solid #eee;
+    padding: 12px 20px 12px 20px;
+}
+
+.ym-dialog .el-dialog__body{
+    padding: 1px 0px 1px 10px;
+}
+
+.ym-dialog .el-dialog__footer{
+    border-top: 1px solid #eee;
+	padding: 10px 10px;
+}
+
+.ym-dialog.fixed .el-dialog__footer{
+	text-align: left;
+}
+.ym-dialog.auto .el-dialog__footer{
+	text-align: right;
+}
+.ym-dialog .ym-dialog-main{
+    overflow: auto;
+}
+.ym-form .el-form-item{margin-bottom: 8px !important;}
+.form-container-options{margin-bottom: 8px;}
+
+
+
+
+
+
+
+
+
+
+.inline-tables .el-table th {
+	padding: 8px 0;
+}
+.inline-tables .el-table td {
+	padding: 0 0;
+}
+.inline-tables .el-table .cell {
+    white-space: nowrap;
+    font-size: 12px;
+}
+.inline-tables.no-pic .el-table td {
+    padding: 5px 0;
+}
+.Va-table-move {
+    position: relative;
+    white-space: pre-wrap !important;
+    width: max-content !important;
+    background: #fff;
+    text-align: left;
+    z-index: 1991;
+    padding: 3px 10px 3px 10px !important;
+    border-radius: 2px;
+    max-width: 400px;
+    word-break: break-all !important;
+    font-size: 13px;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+.Va-table-move-close {
+    top: -10px;
+    right: -10px;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    padding: 2px;
+    cursor: pointer;
+    background-color: #666;
+    border-radius: 50%;
+    color: #fff;
+    z-index: 9999999999;
+    margin: 0 auto;
+    font-size: 20px;
+}
+.has-gutter tr th {
+    background: #f5f6fa;
+}
+
+.ym-upload-import{margin-top: 15px;margin-left: 10px;margin-bottom: 10px;}
+.ym-upload-import .tips{font-size: 11px;
+    margin-top: 5px;
+    display: inline-block;
+    color: #a9a9a9;
+}
+.ym-upload-import .title{
+    overflow: hidden;white-space: nowrap;text-overflow: ellipsis;width: 360px;
+}
+.ym-upload-import .button {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+
+}
+.ym-upload-import .icon {
+    font-size: 67px;
+    color: #C0C4CC;
+    margin: 40px 0 16px;
+    line-height: 50px;
+}
+
+
+.ym-dialog-forms{padding-left: 5px;padding-right: 15px;padding-top: 8px;}
+.ym-dialog-forms .el-form-item__label{padding: 0 0 1px;line-height: 20px;}
+
+.ym-dialog-forms .Va-help-block{
+    display: block;
+    margin-top: 2px;
+    color: #737373;
+    font-size: 12px;
+    min-height: 18px;
+    margin-bottom: 0;
+    line-height: 1.5;
+}
+
+.ym-dialog-forms .Va-help-block:hover {
+    color: #222;
+}
+
+.ym-table-span{font-size: 11px;color: #606266}
+.ym-table-span.success,.ym-views-span.success{color: #67c23a}
+.ym-table-span.warning,.ym-views-span.warning{color: #e6a23c}
+.ym-table-span.fail,.ym-views-span.fail{color: #f56c6c}
+
+.el-button[inline] {
+    padding: 4PX 5PX;
+    margin-left: 5px;
+}

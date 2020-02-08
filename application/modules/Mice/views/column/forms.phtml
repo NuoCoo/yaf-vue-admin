@@ -1,0 +1,48 @@
+<el-dialog
+        title="栏目管理"
+		:close-on-click-modal="false"
+        :visible.sync="forms.dialog"
+        width="490px"
+		top="15vh"
+		:show-close="true"
+       :lock-scroll="false"
+        append-to-body
+        :before-close="$forms.cancelEvent"
+        custom-class="ym-dialog auto"
+>
+ <!-- fixed--> 
+    <div class="ym-dialog-main" :style="layouts.style.dialogAuto">
+        <el-form ref="forms.model" :model="forms.model" :rules="forms.rules"  label-position="top" size="small" class="ym-dialog-forms">
+            <el-form-item label="上级菜单" prop="parent_id">
+                <el-select v-model="forms.model.parent_id" placeholder="-- 请选择上级菜单 --" style="width: 100%" >
+                    <el-option v-for="(item, index) in parentItems" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="栏目名称" prop="name" required>
+                <el-input v-model="forms.model.name" placeholder="请填写栏目名称"></el-input>
+            </el-form-item>
+            <el-form-item label="栏目地址" prop="url">
+                <el-input v-model="forms.model.url" placeholder="请填写栏目地址"></el-input>
+            </el-form-item>
+            <el-form-item label="栏目图标" prop="icon">
+                <el-input v-model="forms.model.icon" placeholder="请填写栏目图标"></el-input>
+            </el-form-item>
+            <el-form-item label="栏目状态" prop="status">
+                <el-switch v-model="forms.model.status" active-text="启用" inactive-text="禁用"></el-switch>
+            </el-form-item>
+            <el-form-item label="栏目排序" prop="sort">
+                <el-input-number v-model="forms.model.sort" :min="1" :max="255" label="栏目排序"></el-input-number>
+                <span class="Va-help-block" data-7512a93d>
+                    <i class="fa fa-exclamation-circle"></i>
+                    数字越小越靠前，默认255
+                </span>
+            </el-form-item>
+        </el-form>
+    </div>
+    <span slot="footer" class="dialog-footer">
+        <el-button @click="$forms.cancelEvent" size="small">取 消</el-button>
+        <el-button type="primary" @click="$forms.submitEvent" size="small" :loading="forms.loading">
+            {{forms.loading ? '提交中...' : '提 交'}}
+        </el-button>
+    </span>
+</el-dialog>
